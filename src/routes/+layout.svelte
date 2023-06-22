@@ -6,7 +6,6 @@
 
     onMount(() => {
         themeChange(false)
-
     })
 </script>
 <Header/>
