@@ -1,13 +1,18 @@
 <script>
-	import { onMount } from 'svelte';
 	import '../app.css';
-    import { themeChange } from 'theme-change'
     import Header from "./Header.svelte";
+    import {theme} from "./stores";
+    import {browser} from "$app/environment";
 
-    onMount(() => {
-        themeChange(false);
-    });
+    if (browser){
+        theme.subscribe(value => {
+            localStorage.setItem("theme", value)
+            document.documentElement.dataset.theme = value;
+        })
+    }
+
 </script>
+
 <Header/>
 <slot/>
 

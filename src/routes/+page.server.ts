@@ -1,16 +1,12 @@
-export async function load() {
-    const usersRes = await fetch('https://jsonplaceholder.typicode.com/users');
-    const usersData = await usersRes.json();
+import {redirect} from "@sveltejs/kit";
+import type {PageServerLoad} from './$types';
 
-    if(usersRes.ok){
-        return {
-            users: usersData
-        };
+export const load: PageServerLoad = ({locals}) => {
+    const user = locals.user;
+
+    if (user) {
+        throw redirect(302, '/app');
+    }else{
+        throw redirect(302, '/login');
     }
-    return {
-        status: usersRes.status,
-        error: new Error('Could not fetch the users!')
-    }
-
-
-}
+};
