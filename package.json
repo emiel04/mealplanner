@@ -13,8 +13,9 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/adapter-netlify": "^2.0.7",
+		"@sveltejs/adapter-node": "^1.2.4",
 		"@sveltejs/kit": "^1.20.4",
+		"@types/bcryptjs": "^2.4.2",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"autoprefixer": "^10.4.14",
@@ -34,6 +35,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@prisma/client": "^4.16.1",
+		"bcryptjs": "^2.4.3",
+		"jsonwebtoken": "^9.0.0",
+		"prisma": "^4.16.1",
 		"theme-change": "^2.5.0"
 	}
 }
