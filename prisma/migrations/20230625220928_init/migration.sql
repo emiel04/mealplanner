@@ -55,10 +55,10 @@ CREATE TABLE "Ingredient" (
 CREATE TABLE "Product" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "isFrozen" BOOLEAN NOT NULL,
-    "isCanned" BOOLEAN NOT NULL,
-    "isFresh" BOOLEAN NOT NULL,
-    "isCooled" BOOLEAN NOT NULL,
+    "isFrozen" BOOLEAN NOT NULL DEFAULT false,
+    "isCanned" BOOLEAN NOT NULL DEFAULT false,
+    "isFresh" BOOLEAN NOT NULL DEFAULT false,
+    "isCooled" BOOLEAN NOT NULL DEFAULT false,
     "description" TEXT NOT NULL,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
