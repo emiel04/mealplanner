@@ -1,6 +1,7 @@
 import type {Actions, PageServerLoad} from './$types';
 import {fail, redirect} from '@sveltejs/kit';
 import {login} from "$lib/users"
+import { generateRedirectToLoginPageURL } from '$lib/utils';
 export const actions: Actions = {
     default: async ({request, cookies, url }) => {
         const data = await request.formData();
@@ -27,10 +28,7 @@ export const actions: Actions = {
                 error: error.message
             });
         }
-        const redirectToParam = url.searchParams.get("redirectTo");
-        // This is to make sure attackers cannot put full links as a parameter, so there will always be a /
-        const redirectTo = `/${redirectToParam?.slice(1) || "app"}`;
-        throw redirect(302, redirectTo);
+        throw redirect(302, generateRedirectToLoginPageURL(url));
     }
 };
 

@@ -3,6 +3,7 @@ import {JWT_SECRET} from '$env/static/private';
 import db from "./lib/server/db";
 import { authenticate } from "$lib/server/authentication";
 import { protectedRoutes } from "./protected_routes";
+import { generateRedirectToLoginPageURL } from "$lib/utils";
 
 const handle: Handle = async ({ event, resolve }) => {
     const user: UserInfo = await authenticate(event);
@@ -10,10 +11,7 @@ const handle: Handle = async ({ event, resolve }) => {
 
     if(protectedRoutes.some(route => event.url.pathname.startsWith(route))){
         if(!user){
-            const fullPath = event.url.pathname + event.url.search;
-            // This is to make sure attackers cannot put full links as a parameter, so there will always be a /
-            const redirectTo : String = "/" + fullPath.slice(1);
-            throw redirect(303, "/login?redirectTo=" + redirectTo)
+            throw redirect(303, generateRedirectToLoginPageURL(event.url))
         }
     }
 
