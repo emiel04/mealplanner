@@ -2,7 +2,6 @@
 	import type { ActionData } from "./$types";
 	import { enhance } from "$app/forms";
 	import { page } from "$app/stores";
-
 	export let form: ActionData;
 	let message: string;
 
