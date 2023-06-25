@@ -1,4 +1,4 @@
-import db from "./db";
+import db from "./server/db";
 import bcrypt from 'bcryptjs';
 import {JWT_SECRET} from '$env/static/private';
 import jwt from "jsonwebtoken"
@@ -28,7 +28,7 @@ export async function login(name: string, password: string) {
         email: user.email,
         username: user.username
     }
-    return jwt.sign(jwtUser, JWT_SECRET)
+    return jwt.sign(jwtUser, JWT_SECRET, { expiresIn: '30 days' });
 }
 
 export async function register(username: string, email: string, password: string, confirm_password: string) {

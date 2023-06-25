@@ -2,7 +2,7 @@ import type {Actions, PageServerLoad} from './$types';
 import {fail, redirect} from '@sveltejs/kit';
 import {login} from "$lib/users"
 export const actions: Actions = {
-    default: async ({request, cookies}) => {
+    default: async ({request, cookies, url }) => {
         const data = await request.formData();
         const formData = {
             username: data.get("username"),
@@ -17,7 +17,8 @@ export const actions: Actions = {
                 httpOnly: true,
                 path: '/',
                 secure: true,
-                sameSite: 'strict'
+                sameSite: 'strict',
+                expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
             });
 
         } catch (error: any) {
@@ -26,14 +27,17 @@ export const actions: Actions = {
                 error: error.message
             });
         }
-        // Redirect to the login page
-        throw redirect(302, '/app');
+        const redirectToParam = url.searchParams.get("redirectTo");
+        // This is to make sure attackers cannot put full links as a parameter, so there will always be a /
+        const redirectTo = `/${redirectToParam?.slice(1) || "app"}`;
+        throw redirect(302, redirectTo);
     }
 };
+
 export const load: PageServerLoad = ({locals}) => {
     const user = locals.user;
 
     if (user) {
         throw redirect(302, '/app');
     }
-};
+};  

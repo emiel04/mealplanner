@@ -1,6 +1,7 @@
-<script>
+<script lang="ts">
 import ThemeSwitchButton from "./ThemeSwitchButton.svelte";
 
+export let user: UserInfo;
 </script>
 
 
@@ -11,8 +12,9 @@ import ThemeSwitchButton from "./ThemeSwitchButton.svelte";
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
             </i>
             <ul class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-
-                <li><a href="/login">Login</a></li>
+                {#if !user}
+                    <li><a href="/login">Login</a></li>
+                {/if}
                 <li>
                     <a href="/app">App</a>
                     <ul class="p-2">
@@ -27,7 +29,9 @@ import ThemeSwitchButton from "./ThemeSwitchButton.svelte";
     </div>
     <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
-            <li><a href="/login">Login</a></li>
+            {#if !user}
+                <li><a href="/login">Login</a></li>
+            {/if}
             <li>
                 <details>
                     <summary><a href="/app">App</a></summary>
@@ -37,7 +41,10 @@ import ThemeSwitchButton from "./ThemeSwitchButton.svelte";
                     </ul>
                 </details>
             </li>
-            <li><a href="/">Item 3</a></li>
+            <li><a href="/app/products">Products</a></li>
+            <li><form action="/logout" method="POST">
+                <button>Logout</button>
+            </form></li>
         </ul>
     </div>
     <div class="navbar-end">

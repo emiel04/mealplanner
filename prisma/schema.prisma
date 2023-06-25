@@ -6,15 +6,100 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider          = "postgresql"
+  url               = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl         = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
   shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  username  String @unique
-  password  String
+  id       String   @id @default(uuid())
+  email    String   @unique
+  username String   @unique
+  password String
+  role     Role     @default(DEFAULT)
+  recipes  Recipe[]
+
+  @@index([email, username])
+}
+
+model Recipe {
+  id           String        @id @default(uuid())
+  User         User          @relation(fields: [authorId], references: [id])
+  authorId     String
+  isPublic     Boolean
+  name         String
+  description  String
+  note         String
+  mealScore    Int
+  kitchenTypes KitchenType[]
+  ingredients  Ingredient[]
+  steps        RecipeStep[]
+  tags         Tag[]
+}
+
+model KitchenType {
+  id       String  @id @default(uuid())
+  name     String
+  Recipe   Recipe? @relation(fields: [recipeId], references: [id])
+  recipeId String?
+}
+
+model Ingredient {
+  id          String  @id @default(uuid())
+  name        String
+  description String
+  amount      Decimal
+  unit        Unit    @relation(fields: [unitId], references: [id])
+  required    Boolean
+  Recipe      Recipe  @relation(fields: [recipeId], references: [id])
+  recipeId    String
+  unitId      String
+  products    Product @relation(fields: [productId], references: [id])
+  productId   String
+}
+
+model Product {
+  id          String       @id @default(uuid())
+  name        String
+  isFrozen    Boolean      @default(false)
+  isCanned    Boolean      @default(false)
+  isFresh     Boolean      @default(false)
+  isCooled    Boolean      @default(false)
+  description String
+  Ingredient  Ingredient[]
+}
+
+model Unit {
+  id         String          @id @default(uuid())
+  name       String
+  type       MeasurementType
+  Ingredient Ingredient[]
+}
+
+enum MeasurementType {
+  VOLUME
+  MASS
+  CUP
+}
+
+enum Role {
+  DEFAULT
+  ADMIN
+}
+
+model RecipeStep {
+  id          String @id @default(uuid())
+  recipe      Recipe @relation(fields: [recipeId], references: [id])
+  recipeId    String
+  order       Int
+  description String
+}
+
+model Tag {
+  id          String  @id @default(uuid())
+  name        String
+  description String
+  Recipe      Recipe? @relation(fields: [recipeId], references: [id])
+  recipeId    String?
 }

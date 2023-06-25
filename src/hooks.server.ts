@@ -1,39 +1,25 @@
-import type {Handle} from "@sveltejs/kit";
-import jwt from "jsonwebtoken";
+import {redirect, type Handle} from "@sveltejs/kit";
 import {JWT_SECRET} from '$env/static/private';
-import db from "./lib/db";
+import db from "./lib/server/db";
+import { authenticate } from "$lib/server/authentication";
+import { protectedRoutes } from "./protected_routes";
 
 const handle: Handle = async ({ event, resolve }) => {
-    const tokenCookie = event.cookies.get('auth');
-    if (tokenCookie) {
-        const token = tokenCookie.split(' ')[1]; // removes Bearer
+    const user: UserInfo = await authenticate(event);
+    event.locals.user = user;
 
-        try {
-            const jwtUser = jwt.verify(token, JWT_SECRET);
-            if (typeof jwtUser === 'string') {
-                throw new Error('Something went wrong');
-            }
-
-            const user = await db.user.findUnique({
-                where: {
-                    id: jwtUser.id
-                }
-            });
-
-            if (!user) {
-                throw new Error('User not found');
-            }
-
-            (event.locals as any).user = {
-                id: user.id,
-                email: user.email
-            };
-        } catch (error) {
-            console.error(error);
+    if(protectedRoutes.some(route => event.url.pathname.startsWith(route))){
+        if(!user){
+            const fullPath = event.url.pathname + event.url.search;
+            // This is to make sure attackers cannot put full links as a parameter, so there will always be a /
+            const redirectTo : String = "/" + fullPath.slice(1);
+            throw redirect(303, "/login?redirectTo=" + redirectTo)
         }
     }
 
-    return resolve(event);
+    const response: Response = await resolve(event);
+
+    return response;
 };
 
 export { handle };
