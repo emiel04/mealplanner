@@ -1,16 +1,16 @@
-import type {Actions, PageServerLoad} from './$types';
-import {fail, redirect} from '@sveltejs/kit';
-import {login} from "$lib/users"
+import type { Actions, PageServerLoad } from './$types';
+import { fail, redirect } from '@sveltejs/kit';
+import { login } from "$lib/users"
 import { generateRedirectToLoginPageURL } from '$lib/utils';
 export const actions: Actions = {
-    default: async ({request, cookies, url }) => {
+    default: async ({ request, cookies, url }) => {
         const data = await request.formData();
         const formData = {
             username: data.get("username"),
             password: data.get("password")
         }
 
-        const {username, password} = formData as { username: string; password: string };
+        const { username, password } = formData as { username: string; password: string };
 
         try {
             const jwt = await login(username, password);
@@ -24,18 +24,20 @@ export const actions: Actions = {
 
         } catch (error: any) {
             return fail(422, {
-                data:formData,
+                data: formData,
                 error: error.message
             });
         }
+
         throw redirect(302, generateRedirectToLoginPageURL(url));
     }
 };
 
-export const load: PageServerLoad = ({locals}) => {
+export const load: PageServerLoad = ({ locals }) => {
     const user = locals.user;
 
     if (user) {
         throw redirect(302, '/app');
     }
+
 };  

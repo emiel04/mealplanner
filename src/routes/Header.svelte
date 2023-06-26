@@ -1,53 +1,35 @@
 <script lang="ts">
-import ThemeSwitchButton from "./ThemeSwitchButton.svelte";
+	import { enhance } from "$app/forms";
+	import type { SubmitFunction } from "@sveltejs/kit";
+	import ThemeSwitchButton from "./ThemeSwitchButton.svelte";
+	import { invalidateAll } from "$app/navigation";
 
-export let user: UserInfo;
+	export let user: UserInfo;
+	export let theme: string;
 </script>
 
-
 <header class="navbar bg-base-100">
-    <div class="navbar-start">
-        <div class="dropdown">
-            <i class="btn btn-ghost lg:hidden">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-            </i>
-            <ul class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                {#if !user}
-                    <li><a href="/login">Login</a></li>
-                {/if}
-                <li>
-                    <a href="/app">App</a>
-                    <ul class="p-2">
-                        <li><a href="/">Submenu 1</a></li>
-                        <li><a href="/">Submenu 2</a></li>
-                    </ul>
-                </li>
-                <li><a href="/">Item 3</a></li>
-            </ul>
-        </div>
-        <a href="/" class="btn btn-ghost normal-case text-xl">Mealplanner</a>
-    </div>
-    <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal px-1">
-            {#if !user}
-                <li><a href="/login">Login</a></li>
-            {/if}
-            <li>
-                <details>
-                    <summary><a href="/app">App</a></summary>
-                    <ul class="p-2">
-                        <li><a href="/">Submenu 1</a></li>
-                        <li><a href="/">Submenu 2</a></li>
-                    </ul>
-                </details>
-            </li>
-            <li><a href="/app/products">Products</a></li>
-            <li><form action="/logout" method="POST">
-                <button>Logout</button>
-            </form></li>
-        </ul>
-    </div>
-    <div class="navbar-end">
-        <ThemeSwitchButton/>
-    </div>
+	<div class="navbar-start">
+		<a href="/" class="btn btn-ghost normal-case text-xl">Mealplanner</a>
+	</div>
+	<div class="navbar-center lg:flex">
+		<ul class="menu menu-horizontal px-1">
+			<li>
+				<a href="/app">App</a>
+			</li>
+			<li><a href="/app/products">Products</a></li>
+			{#if !user}
+				<li><a href="/login">Login</a></li>
+			{:else}
+				<li>
+					<form action="/logout" method="POST">
+						<button>Logout</button>
+					</form>
+				</li>
+			{/if}
+		</ul>
+	</div>
+	<div class="navbar-end">
+		<ThemeSwitchButton {theme} />
+	</div>
 </header>

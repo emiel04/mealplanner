@@ -28,6 +28,8 @@ J
 src/routes/+page.server.ts,8\9\89e76e39cd14bc766607e88bc89e38bbd08ad834
 S
 #src/routes/register/+page.server.ts,8\a\8af76a830903c746b73ca2da1b6292342ac3cbb3
+P
+ src/lib/server/authentication.ts,2\9\296acf94c226bb3b8be6512c656971b94349fc70
 N
 src/routes/app/+page.server.ts,9\f\9fdbf57fb99e85de8208290e0cc2eedf8a459b54
 T
@@ -44,5 +46,3 @@ P
  src/routes/login/+page.server.ts,4\a\4aa6216ce946997970c7a463da9fdf18d27fadf3
 @
 src/lib/users.ts,7\9\791282b105203165ae955dc9d31cb89afb2dde0b
-P
- src/lib/server/authentication.ts,2\9\296acf94c226bb3b8be6512c656971b94349fc70

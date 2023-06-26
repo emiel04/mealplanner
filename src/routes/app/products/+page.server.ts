@@ -34,7 +34,6 @@ export const actions: Actions = {
 export const load: PageServerLoad = async () => {
 
   const products = await Products.getAll();
-  console.log(products);
   return {
     products: products
   };

@@ -37,12 +37,12 @@ W
 H
 src/routes/Header.svelte,3\9\393960e3ff8be2861df8a79dcd12cde26b4b2a46
 C
+src/hooks.server.ts,9\4\942a1693401444fa24de4b6f50876b7dca6c1397
+C
 src/lib/products.ts,c\c\ccac8374008aa925ccf1c0f747db2f1aa4ff7c96
 P
  src/routes/login/+page.server.ts,4\a\4aa6216ce946997970c7a463da9fdf18d27fadf3
 @
 src/lib/users.ts,7\9\791282b105203165ae955dc9d31cb89afb2dde0b
-C
-src/hooks.server.ts,9\4\942a1693401444fa24de4b6f50876b7dca6c1397
 P
  src/lib/server/authentication.ts,2\9\296acf94c226bb3b8be6512c656971b94349fc70
