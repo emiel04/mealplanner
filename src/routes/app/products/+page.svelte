@@ -1,20 +1,23 @@
-<script>
-	import { onMount } from "svelte";
+<script lang="ts">
 	import { invalidate } from "$app/navigation";
+	import { superForm } from "sveltekit-superforms/client";
+	import Products from "$lib/Products.svelte";
 
 	export let data;
-	const { products } = data;
-	onMount(() => {
-		const interval = setInterval(() => {
+	let products = data.products;
+	products = products;
+	const { form, enhance, reset } = superForm(data.form, {
+		onResult: (e) => {
 			invalidate("/app/products");
-		}, 1000);
+		}
 	});
+
 </script>
 
 <div class="flex flex-wrap justify-center gap-10">
 	<div class="w-full p-6 bg-base-300 rounded-md shadow-md lg:max-w-lg h-[30rem]">
 		<h2 class="text-2xl font-bold mb-4">Add a product</h2>
-		<form method="POST">
+		<form method="POST" action="?/createProduct" use:enhance>
 			<div class="mb-4">
 				<label for="name" class="block">Name</label>
 				<input type="text" id="name" name="name" class="form-input mt-1 block w-full" required />
@@ -57,22 +60,7 @@
 	<div class="w-full p-6 bg-base-300 rounded-md shadow-md lg:max-w-lg overflow-hidden">
 		<h2 class="text-2xl font-bold mb-4">Products</h2>
 		<ul class="flex-row h-full overflow-auto">
-			{#each products as product}
-				<li class="flex justify-between mb-2 bg-primary text-primary-content p-3 rounded-lg">
-					<div>
-						<div>
-							{product.name}
-						</div>
-						<div>
-							<small>{product.description}</small>
-						</div>
-					</div>
-					<div>
-						<button class="btn btn-secondary">Edit</button>
-						<button class="btn btn-error">Delete</button>
-					</div>
-				</li>
-			{/each}
+			<Products {products} />
 		</ul>
 	</div>
 </div>

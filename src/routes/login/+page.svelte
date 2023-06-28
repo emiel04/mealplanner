@@ -3,12 +3,13 @@
 	import { enhance } from "$app/forms";
 	import { page } from "$app/stores";
 	import { invalidate, invalidateAll } from "$app/navigation";
+	import toast from "svelte-french-toast";
 
 	export let form: ActionData;
 	let message: string;
 
 	$: message = $page.url.searchParams.get("message") ?? "";
-
+	
 	const handleLogin = async () => {
 		invalidateAll();
 	};

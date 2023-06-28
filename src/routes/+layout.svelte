@@ -1,11 +1,9 @@
 <script lang="ts">
 	import "../app.css";
 	import Header from "./Header.svelte";
-	import { browser } from "$app/environment";
 	import type { PageData } from "./$types";
 	import { onMount } from "svelte";
-	import { redirect } from "@sveltejs/kit";
-
+	import { Toaster } from "svelte-french-toast";
 	export let data: PageData;
 	const { user } = data;
 	let theme = "";
@@ -22,5 +20,7 @@
 <svelte:head>
 	<title>Mealplanner</title>
 </svelte:head>
+<Toaster />
 <Header {user} {theme} />
+
 <slot />

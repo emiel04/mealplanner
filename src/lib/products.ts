@@ -4,7 +4,7 @@ export const Products = {
     return db.product.findMany();
   },
   add: async (name: string, description: string, isFresh: boolean, isCanned: boolean, isCooled: boolean, isFrozen: boolean) => {
-    return db.product.create({
+    return await db.product.create({
       data: {
         name: name,
         isFresh: isFresh,
@@ -13,6 +13,13 @@ export const Products = {
         isFrozen: isFrozen,
         description: description
       }
-    });
+    }).catch();
+  },
+  delete: async (id: string) => {
+    return db.product.delete({
+      where: {
+        id: id
+      }
+    }).catch();
   }
 };
