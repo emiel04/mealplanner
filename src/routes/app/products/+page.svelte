@@ -11,7 +11,6 @@
 			invalidate("/app/products");
 		}
 	});
-
 </script>
 
 <div class="flex flex-wrap justify-center gap-10">
