@@ -33,8 +33,6 @@ export const actions: Actions = {
 export const load: PageServerLoad = async (event) => {
   const products = await Products.getAll();
   const form = await superValidate(event, schema);
-  console.log("load is triggered");
-  console.log(products);
 
   return {
     form,
