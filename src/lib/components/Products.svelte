@@ -21,23 +21,27 @@
 </script>
 
 <ul class="flex-row h-full overflow-auto">
-	{#each products as product (product.id)}
-		<li
-			data-id={product.id}
-			class="flex justify-between mb-2 bg-primary text-primary-content p-3 rounded-lg"
-		>
-			<div>
+	{#if products.length > 0}
+		{#each products as product (product.id)}
+			<li
+				data-id={product.id}
+				class="flex justify-between mb-2 bg-primary text-primary-content p-3 rounded-lg"
+			>
 				<div>
-					{product.name}
+					<div>
+						{product.name}
+					</div>
+					<div>
+						<small>{product.description}</small>
+					</div>
 				</div>
 				<div>
-					<small>{product.description}</small>
+					<button on:click={handleEdit} class="btn btn-secondary">Edit</button>
+					<button on:click={handleDelete} class="btn btn-error">Delete</button>
 				</div>
-			</div>
-			<div>
-				<button on:click={handleEdit} class="btn btn-secondary">Edit</button>
-				<button on:click={handleDelete} class="btn btn-error">Delete</button>
-			</div>
-		</li>
-	{/each}
+			</li>
+		{/each}
+	{:else}
+		<p class="p-3 bg-primary text-primary-content rounded-lg">There are no products available!</p>
+	{/if}
 </ul>
