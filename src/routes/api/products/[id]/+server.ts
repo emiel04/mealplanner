@@ -1,4 +1,4 @@
-import { Products } from '$lib/products.js';
+import { Products } from '$lib/server/products.js';
 
 export const DELETE = ({ params }) => {
     const id = params.id;

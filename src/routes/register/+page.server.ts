@@ -1,9 +1,9 @@
-import type {Actions, PageServerLoad} from './$types';
-import {fail, redirect} from '@sveltejs/kit';
-import {login, register} from "$lib/users"
+import type { Actions, PageServerLoad } from './$types';
+import { fail, redirect } from '@sveltejs/kit';
+import { login, register } from "$lib/server/users"
 
 export const actions: Actions = {
-    default: async ({request, cookies}) => {
+    default: async ({ request, cookies }) => {
         const data = await request.formData();
         const formData = {
             username: data.get("username"),
@@ -12,7 +12,7 @@ export const actions: Actions = {
             confirm_password: data.get("confirm_password")
         }
 
-        const {username, email, password, confirm_password} = formData as { username: string; email: string ;password: string, confirm_password: string };
+        const { username, email, password, confirm_password } = formData as { username: string; email: string; password: string, confirm_password: string };
         let token: string;
         // Create a new user
         try {
@@ -34,7 +34,7 @@ export const actions: Actions = {
     }
 };
 
-export const load: PageServerLoad = ({locals}) => {
+export const load: PageServerLoad = ({ locals }) => {
     const user = locals.user;
 
     if (user) {

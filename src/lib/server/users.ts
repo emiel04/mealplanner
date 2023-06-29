@@ -1,4 +1,4 @@
-import db from "./server/db";
+import db from "./db";
 import bcrypt from 'bcryptjs';
 import { JWT_SECRET } from '$env/static/private';
 import jwt from "jsonwebtoken"

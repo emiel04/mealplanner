@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
-import { login } from "$lib/users"
+import { login } from "$lib/server/users"
 import { generateRedirectToLoginPageURL } from '$lib/utils';
 export const actions: Actions = {
     default: async ({ request, cookies, url }) => {

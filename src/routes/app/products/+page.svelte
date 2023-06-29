@@ -1,25 +1,26 @@
 <script lang="ts">
 	import { invalidate } from "$app/navigation";
 	import { superForm } from "sveltekit-superforms/client";
-	import Products from "$lib/Products.svelte";
-
+	import Products from "$lib/components/Products.svelte";
+	import { productSchema } from "$lib/schemas.js";
 	export let data;
 	$: products = data.products;
 
 	products = products;
-	const { form, enhance, reset } = superForm(data.form, {
+	const { form, enhance, reset, errors } = superForm(data.form, {
 		onResult: (e) => {
 			invalidate("/app/products");
 		},
-		resetForm: true
+		resetForm: true,
+		validators: productSchema
 	});
 </script>
 
 <div class="flex flex-wrap justify-center gap-10">
-	<div class="w-full p-6 bg-base-300 rounded-md shadow-md lg:max-w-lg h-[30rem]">
+	<div class="w-full p-6 bg-base-300 rounded-md shadow-md lg:max-w-lg h-[32rem]">
 		<h2 class="text-2xl font-bold mb-4">Add a product</h2>
 		<form method="POST" action="?/createProduct" use:enhance>
-			<div class="mb-4">
+			<div class="">
 				<label for="name" class="block">Name</label>
 				<input
 					bind:value={$form.name}
@@ -27,11 +28,12 @@
 					id="name"
 					name="name"
 					class="form-input mt-1 block w-full"
-					required
 				/>
 			</div>
-
-			<div class="mb-4">
+			{#if $errors.name}
+				<small class="text-error">{$errors.name}</small>
+			{/if}
+			<div class="mt-2">
 				<label for="description" class="block">Description</label>
 				<textarea
 					bind:value={$form.description}
@@ -39,11 +41,12 @@
 					name="description"
 					class="form-textarea mt-1 block w-full resize-none p-3"
 					rows="3"
-					required
 				/>
 			</div>
-
-			<div class="mb-2">
+			{#if $errors.description}
+				<small class="text-error">{$errors.description}</small>
+			{/if}
+			<div class="my-2">
 				<input
 					bind:checked={$form.isFresh}
 					type="checkbox"
@@ -53,7 +56,9 @@
 				/>
 				<label for="isFresh" class="inline-block ml-2">Fresh</label>
 			</div>
-
+			{#if $errors.isFresh}
+				<small class="text-error">{$errors.isFresh}</small>
+			{/if}
 			<div class="mb-2">
 				<input
 					bind:checked={$form.isCanned}
@@ -64,7 +69,9 @@
 				/>
 				<label for="isCanned" class="inline-block ml-2">Canned</label>
 			</div>
-
+			{#if $errors.isCanned}
+				<small class="text-error">{$errors.isCanned}</small>
+			{/if}
 			<div class="mb-2">
 				<input
 					bind:checked={$form.isCooled}
@@ -75,8 +82,10 @@
 				/>
 				<label for="isCooled" class="inline-block ml-2">Cooled</label>
 			</div>
-
-			<div class="mb-4">
+			{#if $errors.isCooled}
+				<small class="text-error">{$errors.isCooled}</small>
+			{/if}
+			<div class="mb-2">
 				<input
 					bind:checked={$form.isFrozen}
 					type="checkbox"
@@ -86,14 +95,14 @@
 				/>
 				<label for="isFrozen" class="inline-block ml-2">Frozen</label>
 			</div>
-
+			{#if $errors.isFrozen}
+				<small class="text-error">{$errors.isFrozen}</small>
+			{/if}
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
 	</div>
 	<div class="w-full p-6 bg-base-300 rounded-md shadow-md lg:max-w-lg overflow-hidden">
 		<h2 class="text-2xl font-bold mb-4">Products</h2>
-		<ul class="flex-row h-full overflow-auto">
-			<Products {products} />
-		</ul>
+		<Products {products} />
 	</div>
 </div>

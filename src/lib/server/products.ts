@@ -1,4 +1,6 @@
-import db from "./server/db";
+import db from "./db";
+import { z } from "zod";
+
 export const Products = {
   getAll: async () => {
     return db.product.findMany();
@@ -23,3 +25,5 @@ export const Products = {
     }).catch();
   }
 };
+
+

@@ -12,7 +12,6 @@
 		const id = target.closest("li")?.dataset.id;
 		const res = fetch(`/api/products/${id}`, { method: "DELETE" })
 			.then((response) => {
-				console.log("test");
 				products = products.filter((p) => p.id !== id);
 			})
 			.catch((e) => {
@@ -21,22 +20,24 @@
 	}
 </script>
 
-{#each products as product (product.id)}
-	<li
-		data-id={product.id}
-		class="flex justify-between mb-2 bg-primary text-primary-content p-3 rounded-lg"
-	>
-		<div>
+<ul class="flex-row h-full overflow-auto">
+	{#each products as product (product.id)}
+		<li
+			data-id={product.id}
+			class="flex justify-between mb-2 bg-primary text-primary-content p-3 rounded-lg"
+		>
 			<div>
-				{product.name}
+				<div>
+					{product.name}
+				</div>
+				<div>
+					<small>{product.description}</small>
+				</div>
 			</div>
 			<div>
-				<small>{product.description}</small>
+				<button on:click={handleEdit} class="btn btn-secondary">Edit</button>
+				<button on:click={handleDelete} class="btn btn-error">Delete</button>
 			</div>
-		</div>
-		<div>
-			<button on:click={handleEdit} class="btn btn-secondary">Edit</button>
-			<button on:click={handleDelete} class="btn btn-error">Delete</button>
-		</div>
-	</li>
-{/each}
+		</li>
+	{/each}
+</ul>

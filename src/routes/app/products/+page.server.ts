@@ -1,21 +1,15 @@
 import type { Actions } from "@sveltejs/kit";
 import { fail } from "@sveltejs/kit";
-import { Products } from "$lib/products"
+import { Products } from "$lib/server/products"
+import { productSchema } from "$lib/schemas.js";
+
 import type { PageServerLoad } from './$types';
-import { z } from "zod";
 import { superValidate } from 'sveltekit-superforms/server'
 
-const schema = z.object({
-  name: z.string().min(1).max(20),
-  description: z.string().min(1).max(100),
-  isFresh: z.boolean(),
-  isCanned: z.boolean(),
-  isCooled: z.boolean(),
-  isFrozen: z.boolean()
-});
+
 export const actions: Actions = {
   createProduct: async ({ request }) => {
-    const form = await superValidate(request, schema);
+    const form = await superValidate(request, productSchema);
 
     const formData = form.data;
 
@@ -32,7 +26,7 @@ export const actions: Actions = {
 
 export const load: PageServerLoad = async (event) => {
   const products = await Products.getAll();
-  const form = await superValidate(event, schema);
+  const form = await superValidate(event, productSchema);
 
   return {
     form,
