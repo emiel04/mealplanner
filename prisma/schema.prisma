@@ -39,10 +39,10 @@ model Recipe {
 }
 
 model KitchenType {
-  id       String  @id @default(uuid())
-  name     String
-  Recipe   Recipe? @relation(fields: [recipeId], references: [id])
-  recipeId String?
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  Recipe      Recipe[]
 }
 
 model Ingredient {
@@ -97,9 +97,8 @@ model RecipeStep {
 }
 
 model Tag {
-  id          String  @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String
   description String
-  Recipe      Recipe? @relation(fields: [recipeId], references: [id])
-  recipeId    String?
+  Recipe      Recipe[]
 }

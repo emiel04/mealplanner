@@ -1,5 +1,4 @@
 import db from "./db";
-import { z } from "zod";
 
 export const Products = {
   getAll: async () => {
